@@ -5,12 +5,13 @@ a list input_list of floats as argument
 and returns their sum as a float
 """
 from typing import List
+"""
+    typing import to get a list type annotation
+"""
 
 
 def sum_list(input_list: list[float]) -> float:
     """
-    This function takes
-    a list input_list of floats as argument
-    and returns their sum as a float
+    Returns sum of a list of floats as a float
     """
-    return float(sum(input_list))
+    return sum(input_list)
