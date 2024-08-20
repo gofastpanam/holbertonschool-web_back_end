@@ -12,7 +12,4 @@ async def async_comprehension():
     This async function is a coroutine that
     return the 10 random numbers
     """
-    result = []
-    async for i in async_generator():
-        result.append(i)
-    print(result)
+    return [i async for i in async_generator()]
