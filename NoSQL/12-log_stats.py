@@ -1,16 +1,31 @@
 #!/usr/bin/env python3
 """
-Write a Python script that provides some stats about Nginx logs stored in MongoDB.
+Write a Python script that provides some stats
+about Nginx logs stored in MongoDB.
 """
 
-def schools_by_topic(mongo_collection, topic):
-    """Finds and returns the list of schools with a specific topic.
+from pymongo import MongoClient
 
-    Args:
-        mongo_collection: the pymongo collection object.
-        topic (str): The topic to search for.
 
-    Returns:
-        List[dict]: A list of documents (schools) that have the specified topic.
+def log_stats():
     """
-    return list(mongo_collection.find({"topics": topic}))
+    Connects to the 'logs' database and retrieves statistics from the 'nginx' collection.
+    """
+
+    client = MongoClient('mongodb://127.0.0.1:27017')
+    db = client.logs
+    nginx_collection = db.nginx
+    total_logs = nginx_collection.count_documents({})
+    print(f"{total_logs} logs")
+    methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    print("Methods:")
+    for method in methods:
+        count = nginx_collection.count_documents({"method": method})
+        print(f"\tmethod {method}: {count}")
+    status_check_count = nginx_collection.count_documents(
+        {"method": "GET", "path": "/status"})
+    print(f"{status_check_count} status check")
+
+
+if __name__ == "__main__":
+    log_stats()
